@@ -1,0 +1,29 @@
+services:
+  rabbitmq:
+    image: rabbitmq:4.3.6-management
+    container_name: rabbitmq-tp
+    hostname: rabbitmq-tp
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: tp
+      RABBITMQ_DEFAULT_PASS: tp2026
+    volumes:
+      - rabbitmq_tp_data:/var/lib/rabbitmq
+
+  postgres:
+    image: postgres:16
+    container_name: postgres-tp
+    ports:
+      - "127.0.0.1:15432:5432"
+    environment:
+      POSTGRES_USER: tp
+      POSTGRES_PASSWORD: tp2026
+      POSTGRES_DB: tp
+    volumes:
+      - postgres_tp_data:/var/lib/postgresql/data
+
+volumes:
+  rabbitmq_tp_data:
+  postgres_tp_data:
