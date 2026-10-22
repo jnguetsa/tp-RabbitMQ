@@ -15,7 +15,6 @@ public class Producteur {
         String type = a.length > 3 ? a[3] : "CommandeValidee";
         long montant = a.length > 4 ? Long.parseLong(a[4]) : 15000;
 
-        // Construction du corps JSON respectant le contrat du TP
         String jsonPayload = String.format(
                 "{\"eventId\": \"%s\", \"type\": \"%s\", \"occurredAt\": \"2026-10-02T08:00:00Z\", \"schemaVersion\": 1, \"data\": {\"commandeId\": 42, \"montant\": %d, \"devise\": \"XAF\"}}",
                 eventId, type, montant
@@ -31,7 +30,6 @@ public class Producteur {
 
             ch.confirmSelect();
 
-            // La propriété AMQP messageId prend la même valeur que eventId
             AMQP.BasicProperties props = new AMQP.BasicProperties.Builder()
                     .contentType("application/json")
                     .deliveryMode(2) // Persistant

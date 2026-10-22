@@ -21,19 +21,16 @@ public class WorkerRobuste {
             System.out.printf("%s DEBUT id=%s corps=%s%n", nom, id, corps);
 
             try {
-                // Simulation d'une validation de schéma JSON stricte
                 if (!corps.contains("\"eventId\"") || corps.contains("invalide")) {
                     throw new IllegalArgumentException("Format JSON invalide ou corrompu !");
                 }
 
-                // Traitement métier simulé
                 Thread.sleep(1000);
                 System.out.println(nom + " FIN id=" + id);
                 ch.basicAck(deliveryTag, false);
 
             } catch (Exception e) {
                 System.err.println(nom + " ERREUR : " + e.getMessage() + " -> Rejet définitif vers la DLQ.");
-                // Rejet sans requeue (requeue = false) : le message bascule vers la DLX (tp.echecs -> DLQ)
                 ch.basicNack(deliveryTag, false, false);
             }
         };
